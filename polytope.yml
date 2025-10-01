@@ -1,14 +1,2 @@
 include:
   - repo: gh:bluetext-io/bluetext
-  - modules/file-compressor-ui
-  - modules/file-compressor-api
-  - modules/temporal
-  - modules/postgres
-tools:
-  default:
-    run:
-      - tool: "file-compressor-ui"
-      - tool: "file-compressor-api"
-      - tool: "temporal"
-      - tool: "temporal-ui"
-      - tool: "postgres"
