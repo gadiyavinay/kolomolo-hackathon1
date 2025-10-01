@@ -1,0 +1,46 @@
+<div class="container">
+  <h1>File Compressor</h1>
+  <div class="upload-section">
+    <div class="upload-area" 
+         [class.file-over]="hasFileOver"
+         (dragover)="onDragOver($event)"
+         (dragleave)="onDragLeave($event)"
+         (drop)="onDrop($event)"
+         (click)="fileInput.click()">
+      <div class="upload-content">
+        <i class="upload-icon">📁</i>
+        <p>Drop files here or click to browse</p>
+        <button type="button" (click)="addTestFiles()" style="margin-top: 10px; padding: 8px 16px; background: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer;">Add Test Files</button>
+      </div>
+      <input #fileInput type="file" (change)="onFilesSelected($event)" multiple style="display: none;" />
+    </div>
+    
+    <div class="file-list" *ngIf="selectedFiles.length > 0">
+      <h3>Files to compress:</h3>
+      <div class="file-item" *ngFor="let file of selectedFiles; let i = index">
+        <span class="file-name">{{ file.name }}</span>
+        <span class="file-size">{{ formatFileSize(file.size) }}</span>
+        <button class="remove-btn" (click)="removeFile(i)">✕</button>
+      </div>
+      
+      <div class="actions">
+        <button class="compress-btn" (click)="compressFiles()" [disabled]="isCompressing">
+          {{ isCompressing ? 'Compressing...' : 'Compress Files' }}
+        </button>
+        <button class="clear-btn" (click)="clearFiles()">Clear All</button>
+      </div>
+    </div>
+    
+    <div class="progress" *ngIf="isCompressing">
+      <div class="progress-bar" [style.width.%]="compressionProgress"></div>
+    </div>
+    
+    <div class="result" *ngIf="compressedData">
+      <h3>Compression Complete!</h3>
+      <p>Original size: {{ formatFileSize(originalSize) }}</p>
+      <p>Compressed size: {{ formatFileSize(compressedSize) }}</p>
+      <p>Compression ratio: {{ compressionRatio }}%</p>
+      <button class="download-btn" (click)="downloadCompressed()">Download Compressed File</button>
+    </div>
+  </div>
+</div>

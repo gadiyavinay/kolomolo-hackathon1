@@ -1,0 +1,66 @@
+spring:
+  application:
+    name: fraud-detection-service
+  
+  datasource:
+    url: jdbc:h2:mem:frauddb
+    driverClassName: org.h2.Driver
+    username: sa
+    password: password
+    
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+    default-property-inclusion: non_null
+
+# Temporal Configuration
+temporal:
+  target: 127.0.0.1:7233
+  namespace: default
+
+# Server Configuration
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+# Management endpoints for health checks
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+
+# Logging Configuration
+logging:
+  level:
+    com.frauddetection: INFO
+    io.temporal: INFO
+    org.springframework: INFO
+    org.hibernate: WARN
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+# Application Info
+info:
+  app:
+    name: Fraud Detection Service
+    description: Spring Boot application with Temporal workflows for fraud detection
+    version: 1.0.0
+    encoding: UTF-8
+    java:
+      version: 17

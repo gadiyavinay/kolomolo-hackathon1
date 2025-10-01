@@ -1,0 +1,12 @@
+com/frauddetection/model/TransactionData.class
+com/frauddetection/config/TemporalConfig.class
+com/frauddetection/activity/FraudDetectionActivities.class
+com/frauddetection/model/FraudStatus.class
+com/frauddetection/repository/TransactionRepository.class
+com/frauddetection/workflow/FraudDetectionWorkflowImpl.class
+com/frauddetection/workflow/FraudDetectionWorkflow.class
+com/frauddetection/FraudDetectionApplication.class
+com/frauddetection/controller/FraudDetectionController.class
+com/frauddetection/activity/FraudDetectionActivitiesImpl.class
+com/frauddetection/entity/TransactionEntity.class
+com/frauddetection/model/FraudDetectionResult.class

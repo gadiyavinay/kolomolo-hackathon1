@@ -1,0 +1,47 @@
+name: fraud-detection-service
+description: Spring Boot Fraud Detection Service with Temporal Workflows
+
+services:
+  fraud-detection-api:
+    image: maven:3.9.4-eclipse-temurin-17
+    build:
+      dockerfile: |
+        FROM maven:3.9.4-eclipse-temurin-17-alpine AS build
+        WORKDIR /app
+        COPY pom.xml .
+        COPY src ./src
+        RUN mvn clean package -DskipTests
+        
+        FROM eclipse-temurin:17-jre-alpine
+        WORKDIR /app
+        COPY --from=build /app/target/fraud-detection-service-1.0.0.jar app.jar
+        RUN addgroup -g 1001 -S appgroup && \
+            adduser -u 1001 -S appuser -G appgroup
+        USER appuser
+        EXPOSE 8080
+        ENTRYPOINT ["java", "-jar", "/app/app.jar"]
+    
+    ports:
+      - "8080:8080"
+    
+    environment:
+      SPRING_PROFILES_ACTIVE: "dev"
+      TEMPORAL_TARGET: "temporal:7233"
+      TEMPORAL_NAMESPACE: "default"
+      SPRING_DATASOURCE_URL: "jdbc:h2:mem:frauddb"
+      JAVA_OPTS: "-Xmx1g -Xms512m"
+    
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    
+    depends_on:
+      - temporal
+      - postgres
+    
+    tags:
+      app: "fraud-detection"
+      tier: "api"
+      language: "java"
