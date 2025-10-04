@@ -1,2 +1,12 @@
 include:
   - repo: gh:bluetext-io/bluetext
+  - modules/temporal
+  - modules/postgres
+  - modules/fraud-detection-api
+tools:
+  fraud:
+    run:
+      - tool: "temporal"
+      - tool: "temporal-ui"
+      - tool: "postgres"
+      - tool: "fraud-detection-api"
